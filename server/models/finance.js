@@ -1,0 +1,20 @@
+import mongoose from 'mongoose';
+mongoose.Promise = global.Promise;
+
+const financeSchema = new mongoose.Schema({
+  _id: mongoose.Schema.Types.ObjectId,
+  date: {
+    type: Date,
+    required: false,
+  },
+  mountSale: {
+    type: Number,
+    required: true,
+  },
+  totalMoney: {
+    type: String,
+    required: true,
+  }
+});
+
+export default mongoose.model('Finance', customerSchema);
