@@ -10,6 +10,7 @@ import multer from 'multer';
 import mainRoutes from './server/routes/main.js';
 import studentRouter from './server/routes/students';
 import productRouter from './server/routes/products';
+import financeRouter from './server/routes/finance';
 import userRouter from './server/routes/users';
 import {verify} from './server/auth/checkToken';
 import { checkToken } from './server/controllers/users';
@@ -81,6 +82,7 @@ app.listen(port, (request, respond) => {
 // app.use('/', verify, checkToken);
 app.use('/api/', mainRoutes);
 app.use('/product', productRouter);
+app.use('/finance', financeRouter);
 app.use('/user', userRouter);
 
 

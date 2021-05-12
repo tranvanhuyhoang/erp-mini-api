@@ -4,7 +4,7 @@ mongoose.Promise = global.Promise;
 const financeSchema = new mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
   date: {
-    type: Date,
+    type: String,
     required: false,
   },
   mountSale: {
@@ -14,7 +14,11 @@ const financeSchema = new mongoose.Schema({
   totalMoney: {
     type: String,
     required: true,
+  },
+  inventory: {
+    type: Number,
+    required: true,
   }
 });
 
-export default mongoose.model('Finance', customerSchema);
+export default mongoose.model('Finance', financeSchema);
