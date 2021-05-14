@@ -4,7 +4,7 @@ mongoose.Promise = global.Promise;
 const financeSchema = new mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
   date: {
-    type: String,
+    type: Date,
     required: false,
   },
   mountSale: {

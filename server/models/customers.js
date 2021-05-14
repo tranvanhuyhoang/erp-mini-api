@@ -16,9 +16,13 @@ const customerSchema = new mongoose.Schema({
     required: false,
   },
   listProductsBought: {
-    type: String,
+    type: Array,
     required: false,
   },
+  countOrder: {
+    type: Number,
+    required: false,
+  }
 });
 
 export default mongoose.model('Customer', customerSchema);
