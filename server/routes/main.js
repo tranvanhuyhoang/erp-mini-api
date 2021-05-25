@@ -1,6 +1,6 @@
 import express from 'express';
-import { createCourse, getAllCourse, getSingleCourse, updateCourse, deleteCourse  } from '../controllers/course';
 import { createProduct  } from '../controllers/products';
+import { createUser, userLogin  } from '../controllers/users';
 import multer from 'multer';
 
 const storage = multer.diskStorage({
@@ -51,21 +51,31 @@ router.post(
   createProduct
 );
 
+router.post(
+  '/register',
+  createUser
+);
+
+router.post(
+  '/login',
+  userLogin
+);
+
 
 //manage course
-router.post(
-  '/courses', 
-  middlewareUploadImages, 
-  createCourse
-);
-router.get('/courses', getAllCourse);
-router.get('/courses/:courseId', getSingleCourse);
-router.patch('/courses/:courseId', upload.fields([
-  {name: 'avatarCourse'}, 
-  {name: 'imageNewWords'}, 
-  {name: 'imageGrammar'}, 
-  {name: 'imageHomeWork'}]), 
-  updateCourse);
-router.delete('/courses/:courseId', deleteCourse);
+// router.post(
+//   '/courses', 
+//   middlewareUploadImages, 
+//   createCourse
+// );
+// router.get('/courses', getAllCourse);
+// router.get('/courses/:courseId', getSingleCourse);
+// router.patch('/courses/:courseId', upload.fields([
+//   {name: 'avatarCourse'}, 
+//   {name: 'imageNewWords'}, 
+//   {name: 'imageGrammar'}, 
+//   {name: 'imageHomeWork'}]), 
+//   updateCourse);
+// router.delete('/courses/:courseId', deleteCourse);
 
 export default router;

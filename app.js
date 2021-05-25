@@ -8,13 +8,11 @@ import cors from 'cors';
 import path from 'path';
 import multer from 'multer';
 import mainRoutes from './server/routes/main.js';
-import studentRouter from './server/routes/students';
 import productRouter from './server/routes/products';
 import financeRouter from './server/routes/finance';
 import customerRouter from './server/routes/customer';
-import userRouter from './server/routes/users';
 import {verify} from './server/auth/checkToken';
-import { checkToken } from './server/controllers/users';
+// import { checkToken } from './server/controllers/users';
 
 dotenv.config();
 
@@ -85,6 +83,6 @@ app.use('/api/', mainRoutes);
 app.use('/product', productRouter);
 app.use('/customer', customerRouter);
 app.use('/finance', financeRouter);
-app.use('/user', userRouter);
+// app.use('/user', userRouter);
 
 

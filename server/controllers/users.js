@@ -3,7 +3,6 @@ import {registerValidation, loginValidation} from '../auth/validation';
 import bcrypt from "bcryptjs";
 import jwt from 'jsonwebtoken';
 
-
 // create users
 export async function createUser( req, res){
   
@@ -32,7 +31,6 @@ export async function createUser( req, res){
   }
 }
 
-
 export async function userLogin(req, res){
   // Validate user
   const{ error } = loginValidation(req.body);
@@ -47,10 +45,6 @@ export async function userLogin(req, res){
   if(!passLogin) return res.status(400).send("Mật khẩu không hợp lệ")
 
   // Ký và tạo token
-  const token = jwt.sign({_id: userLogin._id}, process.env.SECRET_TOKEN)
+  const token = jwt.sign({_id: userLogin._id}, process.env.ACCESS_TOKEN_SECRET)
   res.header("auth-token", token).send(token);
-}
-
-export async function checkToken(req, res){
-  res.send("Chào mừng bạn đến với website của mình. Chúc bạn một ngày vui vẻ")
 }

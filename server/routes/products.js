@@ -1,5 +1,4 @@
 import express from 'express';
-import { addStudent, getAllStudents, getSingleStudent, updateStudent, deleteStudent } from '../controllers/students';
 import { createProduct, getAllProducts, getSingleProduct, deleteProduct, updateProduct} from '../controllers/products';
 import multer from 'multer';
 

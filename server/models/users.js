@@ -5,7 +5,7 @@ const userSchema = mongoose.Schema({
     email:{required: true, type:String},
     password:{required: true, type:String},
 })
-// Biên dịch mô hình từ schema
+
 export default mongoose.model('User', userSchema)
 
 
