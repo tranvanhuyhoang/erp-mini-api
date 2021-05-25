@@ -11,6 +11,7 @@ import mainRoutes from './server/routes/main.js';
 import productRouter from './server/routes/products';
 import financeRouter from './server/routes/finance';
 import customerRouter from './server/routes/customer';
+import AuthMiddleWare from "./server/middleware/authMiddleware";
 import {verify} from './server/auth/checkToken';
 // import { checkToken } from './server/controllers/users';
 
@@ -80,9 +81,10 @@ app.listen(port, (request, respond) => {
 // set up route
 // app.use('/', verify, checkToken);
 app.use('/api/', mainRoutes);
-app.use('/product', productRouter);
-app.use('/customer', customerRouter);
-app.use('/finance', financeRouter);
+app.use('/product', AuthMiddleWare, productRouter);
+app.use('/customer', AuthMiddleWare, customerRouter);
+app.use('/finance', AuthMiddleWare, financeRouter);
+
 // app.use('/user', userRouter);
 
 

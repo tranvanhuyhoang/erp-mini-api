@@ -1,6 +1,6 @@
 import express from 'express';
 import { createProduct  } from '../controllers/products';
-import { createUser, userLogin  } from '../controllers/users';
+import { createUser, userLogin, refreshToken  } from '../controllers/users';
 import multer from 'multer';
 
 const storage = multer.diskStorage({
@@ -61,6 +61,10 @@ router.post(
   userLogin
 );
 
+router.post(
+  '/refesh-token',
+  refreshToken
+);
 
 //manage course
 // router.post(
