@@ -23,6 +23,8 @@ const __dirname = path.resolve();
 
 //read file from static url
 // app.use(express.static("public"));
+
+
 app.use('/uploads', express.static("uploads"));
 
 app.set('views', path.join(__dirname, '/server/views'));
@@ -36,7 +38,7 @@ var corsOptions = {
   origin: `http://localhost:${process.env.PORT}`
 };
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 var uploadMulter = multer();
 // app.use(uploadMulter.array()); 
@@ -74,10 +76,6 @@ app.get('/', (request, respond) => {
   respond.render("abc");
 });
 
-app.listen(port, (request, respond) => {
-  console.log(`Our server is live on ${port}. Yay!`);
-});
-
 // set up route
 // app.use('/', verify, checkToken);
 app.use('/api/', mainRoutes);
@@ -86,5 +84,9 @@ app.use('/customer', AuthMiddleWare, customerRouter);
 app.use('/finance', AuthMiddleWare, financeRouter);
 
 // app.use('/user', userRouter);
+
+app.listen(port, (request, respond) => {
+  console.log(`Our server is live on ${port}. Yay!`);
+});
 
 

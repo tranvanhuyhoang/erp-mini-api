@@ -68,7 +68,13 @@ export async function userLogin(req, res){
   const refreshToken = await generateToken(userData, refreshTokenSecret, refreshTokenLife);
 
   // const token = jwt.sign({_id: userLogin._id}, process.env.ACCESS_TOKEN_SECRET)
-  res.header("auth-token", {accessToken, refreshToken}).send({accessToken, refreshToken});
+  res.header("auth-token", {accessToken, refreshToken}).send({
+    status: true,
+    data: {
+      token: accessToken, 
+      refreshToken
+    }
+  });
 }
 
 export async function refreshToken(req, res){
