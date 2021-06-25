@@ -91,8 +91,6 @@ export async function refreshToken(req, res){
     try {
       // Verify kiểm tra tính hợp lệ của cái refreshToken và lấy dữ liệu giải mã decoded 
       const decoded = await verifyToken(refreshTokenFromClient, refreshTokenSecret);
-      // Thông tin user lúc này các bạn có thể lấy thông qua biến decoded.data
-      // có thể mở comment dòng debug bên dưới để xem là rõ nhé.
       // debug("decoded: ", decoded);
       const userData = decoded.data;
       const accessToken = await generateToken(userData, accessTokenSecret, accessTokenLife);
