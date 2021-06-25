@@ -58,7 +58,7 @@ var upload = multer({ storage: storage });
 
 // set up mongoose
 try {
-  await mongoose.connect(`mongodb://${process.env.DB_URL}`, { useNewUrlParser: true });
+  mongoose.connect(`mongodb://${process.env.DB_URL}`, { useNewUrlParser: true });
   console.log('Database connected');
 } catch (error) {
   handleError(error);

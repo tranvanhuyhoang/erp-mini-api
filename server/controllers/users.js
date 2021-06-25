@@ -52,11 +52,17 @@ export async function userLogin(req, res){
 
   // Kiểm tra email
   const userLogin = await User.findOne({email: req.body.email});
-  if(!userLogin) return res.status(400).send("Không tìm thấy email")
+  if(!userLogin) return res.status(200).send({
+    status: false,
+    message: "Không tìm thấy email"
+  })
 
   // Kiểm tra password
   const passLogin = await bcrypt.compare(req.body.password, userLogin.password);
-  if(!passLogin) return res.status(400).send("Mật khẩu không hợp lệ")
+  if(!passLogin) return res.status(200).send({
+    status: false,
+    message: "Mật khẩu không hợp lệ"
+  })
 
   // Ký và tạo token
   const userData = {

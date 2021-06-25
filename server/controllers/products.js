@@ -10,14 +10,14 @@ export async function createProduct (req, res) {
       type: req.body.type,
       total: req.body.total,
       totalSold: req.body.totalSold,
-      avatar: req.files['avatar'][0].path,
+      avatar: `${process.env.DOMAIN}${req.files['avatar'][0].path}`,
     });
   
   return product
     .save()
     .then((newProduct) => {
       return res.status(201).json({
-        success: true,
+        status: true,
         message: 'Thêm sản phẩm thành công',
         data: newProduct,
       });
@@ -25,7 +25,7 @@ export async function createProduct (req, res) {
     .catch((error) => {
         console.log(error);
       res.status(500).json({
-        success: false,
+        status: false,
         message: 'Server error. Please try again.',
         error: error.message,
       });
@@ -40,7 +40,7 @@ export function getAllProducts( req, res){
       return res.status(200).json({
         success: true,
         message: 'Lấy danh sách thành công',
-        data: allProducts,
+        data: allProducts.reverse(),
       });
     })
     .catch((err) => {
@@ -98,11 +98,12 @@ export function deleteProduct(req, res) {
   const id = req.params.productId;
   Product.findByIdAndRemove(id)
     .exec()
-    .then(()=> res.status(204).json({
+    .then(()=> res.status(200).json({
       success: true,
       message: 'Xóa sản phẩm thành công',
     }))
     .catch((err) => res.status(500).json({
       success: false,
+      message: 'Xóa sản phẩm thất bại',
     }));
 }

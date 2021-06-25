@@ -2,6 +2,9 @@ import express from 'express';
 import { createProduct  } from '../controllers/products';
 import { createUser, userLogin, refreshToken  } from '../controllers/users';
 import multer from 'multer';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb){
