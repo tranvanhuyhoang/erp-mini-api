@@ -1,5 +1,8 @@
 import mongoose from 'mongoose';
+import moment from "moment";
+
 import Customer from '../models/customers';
+
 
 
 // create new customer
@@ -8,7 +11,7 @@ export async function createCustomer (req, res) {
       _id: mongoose.Types.ObjectId(),
       name: req.body.name,
       phone: req.body.phone,
-      dataOfBirth: req.body.dataOfBirth,
+      dayOfBirth: req.body.dayOfBirth,
       listProductsBought: req.body.listProductsBought,
       countOrder: req.body.countOrder,
     });
@@ -67,6 +70,53 @@ export function getSingleCustomer(req, res) {
       res.status(500).json({
         success: false,
         message: 'This course does not exist',
+        error: err.message,
+      });
+   });
+}
+
+export function getBirthdayCustomer(req, res) {
+  const month = req.query.month;
+  console.log("month ", month)
+  let getKey = {
+    _id: true,
+    name: true,
+    phone: true,
+    dayOfBirth: true,
+    listProductsBought: true,
+    countOrder: true,
+  }
+  
+  Customer.find()
+  .then((data) => {
+    let dataRes = [];
+
+    for(let index in data){
+      if(data[index].dayOfBirth && moment(data[index].dayOfBirth).format('M') === month){
+        dataRes.push(data[index]);
+      }
+    }
+
+    if(dataRes.length > 0){
+      res.status(200).json({
+        status: true,
+        message: `success`,
+        data: dataRes,
+      });  
+    }else{
+      res.status(200).json({
+        status: true,
+        message: `Hiện tại chưa có khách hàng có sinh nhật tháng ${month}`,
+      });  
+    }
+
+
+
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: 'Hiện chưa có sinh nhật khách hàng nào',
         error: err.message,
       });
    });

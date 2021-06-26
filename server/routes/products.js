@@ -1,5 +1,11 @@
 import express from 'express';
-import { createProduct, getAllProducts, getSingleProduct, deleteProduct, updateProduct} from '../controllers/products';
+import { 
+  createProduct, 
+  getAllProducts, 
+  getSingleProduct, 
+  deleteProduct, 
+  updateProduct,
+} from '../controllers/products';
 import multer from 'multer';
 
 const storage = multer.diskStorage({
