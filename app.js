@@ -6,6 +6,11 @@ import logger from 'morgan';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import path from 'path';
+import CryptoJS from 'crypto-js';
+import Base64 from 'crypto-js/enc-base64';
+import Utf8 from 'crypto-js/enc-utf8';
+import jws from 'jws';
+import jwt_decode from "jwt-decode";
 import multer from 'multer';
 import mainRoutes from './server/routes/main.js';
 import productRouter from './server/routes/products';
@@ -75,6 +80,90 @@ app.get('/', (request, respond) => {
   // });
   respond.render("abc");
 });
+
+// function base64url(source) {
+//   let encodedSource = Base64.stringify(Utf8.parse(source));
+//   encodedSource = encodedSource.replace(/=+$/, '');
+//   encodedSource = encodedSource.replace(/\+/g, '-');
+//   encodedSource = encodedSource.replace(/\//g, '_');
+//   return encodedSource;
+// }
+
+// function base64url(source) {
+//   // Encode in classical base64
+//   let encodedSource = CryptoJS.enc.Base64.stringify(Utf8.parse(source));
+
+//   // Remove padding equal characters
+//   encodedSource = encodedSource.replace(/=+$/, '');
+
+//   // Replace characters according to base64url specifications
+//   encodedSource = encodedSource.replace(/\+/g, '-');
+//   encodedSource = encodedSource.replace(/\//g, '_');
+
+//   return encodedSource;
+// }
+
+// function generateJWT(payload, secretOrPrivateKey, options){
+//   if(!payload || !secretOrPrivateKey){
+//       return {
+//           error: true,
+//           message: 'invalid parameters'
+//       }
+//   }
+
+//   let header = {
+//       "alg": "HS256",
+//       "typ": "JWT"
+//   }
+
+//   if(options && options.alg){
+//       header.alg = options.alg;
+//   }
+
+//   let stringifiedHeader = JSON.stringify(header);
+//   let encodedHeader = base64url(stringifiedHeader);
+
+//   let data = {};
+//   Object.assign(data, payload);
+//   var stringifiedData = JSON.stringify(data);
+//   let encodedPayload = base64url(stringifiedData);
+
+//   let token = encodedHeader + "." + encodedPayload;
+//   let signature = CryptoJS.HmacSHA256(token, secretOrPrivateKey);
+//       signature = base64url(signature);
+//   let signedToken = token + "." + signature;
+//   return signedToken;
+// }
+
+function decode(jwt, options){
+  options = options || {};
+
+  let decoded = jws.decode(jwt);
+  if (!decoded) { return null; }
+  var payload = decoded.payload;
+  if(typeof payload === 'string') {
+    try {
+      var obj = JSON.parse(payload);
+      if(obj !== null && typeof obj === 'object') {
+        payload = obj;
+      }
+    } catch (e) { }
+  }
+  if (options.complete === true) {
+    return {
+      header: decoded.header,
+      payload: payload,
+      signature: decoded.signature
+    };
+  }
+  return payload 
+}
+
+
+let token123 = generateJWT({"name": "hoangtran"},'hoang123456','');
+console.log("token123 ", token123);
+console.log("verifyJWT ", verifyJWT(token123,'hoang123456',''));
+
 
 // set up route
 // app.use('/', verify, checkToken);

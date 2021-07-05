@@ -20,7 +20,7 @@ export async function createCustomer (req, res) {
     .save()
     .then((newCustomer) => {
       return res.status(201).json({
-        success: true,
+        status: true,
         message: 'Thêm thành công',
         data: newCustomer,
       });
@@ -28,7 +28,7 @@ export async function createCustomer (req, res) {
     .catch((error) => {
         console.log(error);
       res.status(500).json({
-        success: false,
+        status: false,
         message: 'Server error. Please try again.',
         error: error.message,
       });
@@ -41,14 +41,14 @@ export function getAllCustomer( req, res){
     .select('_id name phone dayOfBirth listProductsBought countOrder')
     .then((data) => {
       return res.status(200).json({
-        success: true,
+        status: true,
         message: 'Lấy danh sách thành công',
         data,
       });
     })
     .catch((err) => {
       res.status(500).json({
-        success: false,
+        status: false,
         message: 'Server error. Please try again.',
         error: err.message,
       });
@@ -61,14 +61,14 @@ export function getSingleCustomer(req, res) {
   Customer.findById(id)
     .then((data) => {
       res.status(200).json({
-        success: true,
+        status: true,
         message: `success`,
         data,
       });
     })
     .catch((err) => {
       res.status(500).json({
-        success: false,
+        status: false,
         message: 'This course does not exist',
         error: err.message,
       });
@@ -110,12 +110,10 @@ export function getBirthdayCustomer(req, res) {
       });  
     }
 
-
-
     })
     .catch((err) => {
       res.status(500).json({
-        success: false,
+        status: false,
         message: 'Hiện chưa có sinh nhật khách hàng nào',
         error: err.message,
       });
@@ -130,14 +128,14 @@ export function updateCustomer(req, res) {
     .exec()
     .then(() => {
       res.status(200).json({
-        success: true,
+        status: true,
         message: 'cập nhật thành công',
         data,
       });
     })
     .catch((err) => {
       res.status(500).json({
-        success: false,
+        status: false,
         message: 'Server error. Please try again.'
       });
     });

@@ -71,6 +71,7 @@ export async function userLogin(req, res){
     email: userLogin.name,
   };
   const accessToken = await generateToken(userData, accessTokenSecret, accessTokenLife);
+  console.log("accessToken ", accessToken);
   const refreshToken = await generateToken(userData, refreshTokenSecret, refreshTokenLife);
 
   // const token = jwt.sign({_id: userLogin._id}, process.env.ACCESS_TOKEN_SECRET)
