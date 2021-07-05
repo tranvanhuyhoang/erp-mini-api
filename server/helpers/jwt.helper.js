@@ -1,4 +1,8 @@
 import jwt from 'jsonwebtoken';
+import CryptoJS from 'crypto-js';
+import Base64 from 'crypto-js/enc-base64';
+import Utf8 from 'crypto-js/enc-utf8';
+import jws from 'jws';
 
 // export let generateToken = (user, secretSignature, tokenLife) => {
 //   return new Promise((resolve, reject) => {
@@ -34,7 +38,11 @@ function base64url(source) {
 
 export function generateToken(payload, secretOrPrivateKey, options){
   if(!payload || !secretOrPrivateKey){
-      return reject('invalid parameters');
+      // return reject('invalid parameters');
+      return {
+          error: true,
+          message: 'invalid parameters'
+      }
   }
 
   let header = {
@@ -58,8 +66,8 @@ export function generateToken(payload, secretOrPrivateKey, options){
   let signature = CryptoJS.HmacSHA256(token, secretOrPrivateKey);
       signature = base64url(signature);
   let signedToken = token + "." + signature;
-  resolve(signedToken);
-  // return signedToken;
+  // resolve(signedToken);
+  return signedToken;
 }
 
 function decode(jwt, options){
@@ -90,51 +98,51 @@ export function verifyToken(jwtString, secretOrPrivateKey){
   
   let parts = jwtString.split('.');
   if (parts.length !== 3){
-    return reject('jwt malformed');
-    // return {
-    //     error: true,
-    //     name: 'jwtError',
-    //     message: 'jwt malformed'
-    // }
+    // return reject('jwt malformed');
+    return {
+        error: true,
+        name: 'jwtError',
+        message: 'jwt malformed'
+    }
   }
 
   let decodedToken = decode(jwtString, { complete: true });
   if (!decodedToken) {
-    return reject('invalid token');
-    // return {
-    //     error: true,
-    //     name: 'jwtError',
-    //     message: 'invalid token'
-    // }
+    // return reject('invalid token');
+    return {
+        error: true,
+        name: 'jwtError',
+        message: 'invalid token'
+    }
   }
   
   // let header = decodedToken.header;
   let hasSignature = parts[2].trim() !== '';
   if (!hasSignature && secretOrPrivateKey){
-    return reject('jwt signature is required');
-    // return {
-    //   error: true,
-    //   name: 'jwtError',
-    //   message: 'jwt signature is required'
-    // }
+    // return reject('jwt signature is required');
+    return {
+      error: true,
+      name: 'jwtError',
+      message: 'jwt signature is required'
+    }
   }
 
   if (hasSignature && !secretOrPrivateKey) {
-    return reject('secret or public key must be provided');
-    // return {
-    //   error: true,
-    //   name: 'jwtError',
-    //   message: 'secret or public key must be provided'
-    // }
+    // return reject('secret or public key must be provided');
+    return {
+      error: true,
+      name: 'jwtError',
+      message: 'secret or public key must be provided'
+    }
   }
 
   if(decodedToken.header.alg !== 'HS256'){
-      return reject('invalid algorithm');
-      // {
-      //     error: true,
-      //     name: 'jwtError',
-      //     message: 'invalid algorithm'
-      // }
+      // return reject('invalid algorithm');
+      return {
+          error: true,
+          name: 'jwtError',
+          message: 'invalid algorithm'
+      }
   }
 
   // console.log("jwtString ", jwtString);
@@ -148,11 +156,11 @@ export function verifyToken(jwtString, secretOrPrivateKey){
 
   if(signature === parts[2]){
     console.log("JWT duoc chap nhan");
-    resolve(decoded);
+    // resolve(decoded);
     return true;
   }else{
     console.log("JWT sai");
-    reject("JWT sai")
+    // reject("JWT sai")
     return false;
   }
 

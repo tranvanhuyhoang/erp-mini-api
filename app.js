@@ -160,11 +160,6 @@ function decode(jwt, options){
 }
 
 
-let token123 = generateJWT({"name": "hoangtran"},'hoang123456','');
-console.log("token123 ", token123);
-console.log("verifyJWT ", verifyJWT(token123,'hoang123456',''));
-
-
 // set up route
 // app.use('/', verify, checkToken);
 app.use('/api/', mainRoutes);
